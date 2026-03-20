@@ -14,13 +14,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { getImpactPageIntent } from "@/lib/roleNavigation";
 
 const COLORS = ["hsl(211,100%,52%)", "hsl(160,84%,39%)", "hsl(280,70%,55%)", "hsl(35,95%,55%)", "hsl(350,70%,55%)", "hsl(200,50%,50%)"];
 
 export default function ImpactPage() {
   const { user } = useAuth();
   const { toast } = useToast();
-  const isBoi = user?.role === "boi-officer";
+  const role = user?.role ?? "talent";
+  const isBoi = role === "boi-officer";
+  const isAdmin = role === "admin";
+  const isFounder = role === "founder";
+  const isTalent = role === "talent";
+  const pageIntent = getImpactPageIntent(role);
   const [exporting, setExporting] = useState<"pdf" | "csv" | null>(null);
 
   const [cohortFilter, setCohortFilter] = useState("all");
@@ -57,6 +63,49 @@ export default function ImpactPage() {
     const complianceVerified = filteredPortfolio.filter((item) => item.compliance === "Verified").length;
     return { fellowsPlaced, grantsUnlocked, complianceVerified };
   }, [filteredPortfolio]);
+
+  const statLabels = useMemo(() => {
+    if (isTalent) {
+      return {
+        placed: "My Placement Ecosystem",
+        jobs: "Jobs from Matched Teams",
+        startups: "Active Startups",
+        equity: "Equity Pool Outlook",
+      };
+    }
+    if (isFounder) {
+      return {
+        placed: "Talents Placed",
+        jobs: "Jobs Created",
+        startups: "Active Startups",
+        equity: "Equity Pool",
+      };
+    }
+    if (isAdmin) {
+      return {
+        placed: "Talents Placed",
+        jobs: "Jobs Created",
+        startups: "Active Startups",
+        equity: "Program Equity Pool",
+      };
+    }
+    return {
+      placed: "Talents Placed",
+      jobs: "Jobs Created",
+      startups: "Active Startups",
+      equity: "Equity Pool",
+    };
+  }, [isAdmin, isFounder, isTalent]);
+
+  const sectorTitle = isTalent
+    ? "Ecosystem Sector Mix"
+    : isFounder
+      ? "Market Sector Mix"
+      : "Sector Distribution";
+
+  const startupTrendTitle = isAdmin
+    ? "Startup Formation Trend"
+    : "New Startups by Month";
 
   const triggerDownload = (filename: string, content: string, mimeType: string) => {
     const blob = new Blob([content], { type: mimeType });
@@ -117,11 +166,13 @@ export default function ImpactPage() {
     setExporting(null);
   };
 
+  if (!user) return null;
+
   return (
     <div className="space-y-6">
       <div className="animate-fade-in">
         <div className="flex items-center gap-2">
-          <h1 className="text-2xl font-bold">{isBoi ? "Reports" : "Impact Reports"}</h1>
+          <h1 className="text-2xl font-bold">{pageIntent.title}</h1>
           {isBoi && (
             <Badge className="bg-accent/15 text-accent border-accent/30">
               <ShieldCheck className="h-3.5 w-3.5 mr-1.5" />
@@ -130,9 +181,7 @@ export default function ImpactPage() {
           )}
         </div>
         <p className="text-sm text-muted-foreground mt-1">
-          {isBoi
-            ? "Real-time portfolio tracking, compliance verification, and downloadable oversight reports."
-            : "Platform-wide analytics and impact metrics"}
+          {pageIntent.subtitle}
         </p>
       </div>
 
@@ -200,15 +249,15 @@ export default function ImpactPage() {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Talents Placed" value={impactStats.talentsPlaced} icon={Users} delay={100} />
-        <StatCard title="Jobs Created" value={impactStats.jobsCreated.toLocaleString()} icon={TrendingUp} delay={200} />
-        <StatCard title="Active Startups" value={impactStats.activeStartups} icon={Building2} delay={300} />
-        <StatCard title="Equity Pool" value={impactStats.equityDistributed} icon={DollarSign} delay={400} />
+        <StatCard title={statLabels.placed} value={impactStats.talentsPlaced} icon={Users} delay={100} />
+        <StatCard title={statLabels.jobs} value={impactStats.jobsCreated.toLocaleString()} icon={TrendingUp} delay={200} />
+        <StatCard title={statLabels.startups} value={impactStats.activeStartups} icon={Building2} delay={300} />
+        <StatCard title={statLabels.equity} value={impactStats.equityDistributed} icon={DollarSign} delay={400} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div className="glass rounded-lg p-5 animate-fade-in" style={{ animationDelay: "300ms" }}>
-          <h2 className="text-sm font-semibold mb-4">Sector Distribution</h2>
+          <h2 className="text-sm font-semibold mb-4">{sectorTitle}</h2>
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -239,7 +288,7 @@ export default function ImpactPage() {
         </div>
 
         <div className="glass rounded-lg p-5 animate-fade-in" style={{ animationDelay: "400ms" }}>
-          <h2 className="text-sm font-semibold mb-4">New Startups by Month</h2>
+          <h2 className="text-sm font-semibold mb-4">{startupTrendTitle}</h2>
           <div className="h-56">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={monthlyData}>

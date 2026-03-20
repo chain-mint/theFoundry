@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { useAuth } from "@/context/AuthContext";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -18,10 +18,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import { LogOut, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { canAccessPath } from "@/lib/roleNavigation";
 
 export function DashboardLayout() {
   const { isAuthenticated, user, logout } = useAuth();
   const { toast } = useToast();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [showTips, setShowTips] = useState(false);
 
   const tipText = useMemo(() => {
@@ -45,7 +48,19 @@ export function DashboardLayout() {
     setShowTips(false);
   };
 
+  useEffect(() => {
+    if (!user) return;
+    if (canAccessPath(user.role, location.pathname)) return;
+
+    toast({
+      title: "Restricted route",
+      description: "That page is not available for your current persona.",
+    });
+    navigate("/dashboard", { replace: true });
+  }, [location.pathname, navigate, toast, user]);
+
   if (!isAuthenticated) return <Navigate to="/" replace />;
+  if (user && !canAccessPath(user.role, location.pathname)) return null;
 
   return (
     <SidebarProvider>

@@ -13,13 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
-const roleLabels: Record<string, string> = {
-  talent: "3MTT Talent",
-  founder: "iDICE Founder",
-  "boi-officer": "iDICE Board / BOI Officer",
-  admin: "3MTT Board / Admin",
-};
+import { ROLE_LABELS } from "@/lib/roleNavigation";
 
 export default function SettingsPage() {
   const { user, logout } = useAuth();
@@ -40,7 +34,7 @@ export default function SettingsPage() {
           </div>
           <div>
             <h2 className="text-lg font-semibold">{user.name}</h2>
-            <Badge variant="secondary" className="mt-1">{roleLabels[user.role]}</Badge>
+            <Badge variant="secondary" className="mt-1">{ROLE_LABELS[user.role]}</Badge>
           </div>
         </div>
         <div className="mt-6 space-y-4">
