@@ -132,7 +132,7 @@ export function DocumentSigningPanel({ founderName, teamRoles, finalizedProjectI
     <div className="glass rounded-lg p-6 animate-fade-in" style={{ animationDelay: "420ms" }}>
       <div className="flex items-center gap-2 mb-2">
         <FileSignature className="h-4 w-4 text-primary" />
-        <h2 className="text-sm font-semibold">Phase 9: Document Signing (Simulation)</h2>
+        <h2 className="text-sm font-semibold">Document Signing</h2>
       </div>
       <p className="text-xs text-muted-foreground mb-4">
         Team formation is done. This phase simulates sending and tracking agreement signatures for founder and selected talents.

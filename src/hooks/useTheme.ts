@@ -1,29 +1,33 @@
 import { useState, useEffect, useCallback } from "react";
 
 export function useTheme() {
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
-    if (typeof window !== "undefined") {
-      const stored = window.localStorage.getItem("thefoundry:theme");
-      if (stored === "light" || stored === "dark") {
-        return stored;
-      }
-
-      if (document.documentElement.classList.contains("dark")) {
-        return "dark";
-      }
-
-      return "dark";
-    }
-    return "dark";
-  });
+  const [theme, setTheme] = useState<"light" | "dark">("light");
 
   useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-    window.localStorage.setItem("thefoundry:theme", theme);
-  }, [theme]);
+    const stored = localStorage.getItem("thefoundry:theme");
+
+    // If user has saved preference → use it
+    if (stored === "light" || stored === "dark") {
+      setTheme(stored);
+      document.documentElement.classList.toggle("dark", stored === "dark");
+      return;
+    }
+
+    // use system preference 
+    const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    const initial = systemDark ? "dark" : "light";
+    setTheme(initial);
+    document.documentElement.classList.toggle("dark", systemDark);
+  }, []);
 
   const toggle = useCallback(() => {
-    setTheme((t) => (t === "dark" ? "light" : "dark"));
+    setTheme((prev) => {
+      const next = prev === "dark" ? "light" : "dark";
+      document.documentElement.classList.toggle("dark", next === "dark");
+      localStorage.setItem("thefoundry:theme", next);
+      return next;
+    });
   }, []);
 
   return { theme, toggle };

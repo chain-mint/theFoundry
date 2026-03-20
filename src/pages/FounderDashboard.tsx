@@ -351,7 +351,7 @@ export default function FounderDashboard() {
 
     toast({
       title: "Team locked",
-      description: "Hire requests have been sent to selected talents (simulated).",
+      description: "Hire requests have been sent to selected talents.",
     });
   }, [teamRoles, toast]);
 

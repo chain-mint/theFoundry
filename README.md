@@ -1,4 +1,4 @@
-# theFoundry Experience Simulator
+# theFoundry
 
 A clean, modern web simulation demo that showcases the end-to-end user journey for theFoundry platform: AI-driven matchmaking between iDICE founders and 3MTT talents.
 

@@ -79,7 +79,7 @@ export function FounderSuccessScreen({ teamRoles, founderName, finalizedProjectI
       {/* Burn Reduction */}
       <BurnReductionChart />
 
-      {/* Phase 9: Signing */}
+      {/* Signing */}
       <DocumentSigningPanel founderName={founderName} teamRoles={teamRoles} finalizedProjectId={finalizedProjectId} />
 
       {/* Next Steps */}

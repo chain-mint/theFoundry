@@ -31,7 +31,7 @@ export default function SettingsPage() {
     <div className="space-y-6 max-w-2xl">
       <div className="animate-fade-in">
         <h1 className="text-2xl font-bold">Profile & Settings</h1>
-        <p className="text-sm text-muted-foreground mt-1">Manage your simulated profile</p>
+        <p className="text-sm text-muted-foreground mt-1">Manage your profile</p>
       </div>
       <div className="glass rounded-lg p-6 animate-fade-in" style={{ animationDelay: "100ms" }}>
         <div className="flex items-center gap-4">
@@ -51,7 +51,7 @@ export default function SettingsPage() {
             </div>
             <div>
               <p className="text-muted-foreground text-xs uppercase tracking-wider">Status</p>
-              <p className="mt-1">Active (Simulated)</p>
+              <p className="mt-1">Active</p>
             </div>
           </div>
         </div>

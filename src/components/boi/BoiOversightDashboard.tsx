@@ -331,7 +331,7 @@ export default function BoiOversightDashboard() {
       <div className="glass rounded-lg overflow-hidden animate-fade-in" style={{ animationDelay: "200ms" }}>
         <div className="p-4 border-b border-border/50 flex items-center justify-between">
           <h2 className="text-sm font-semibold">Portfolio Overview</h2>
-          <span className="text-xs text-muted-foreground">Streaming updates every 60s (simulated)</span>
+          <span className="text-xs text-muted-foreground">Streaming updates every 60s </span>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

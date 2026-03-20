@@ -55,7 +55,7 @@ export function DashboardLayout() {
           <header className="h-14 flex items-center justify-between border-b border-border/50 px-4 glass sticky top-0 z-10">
             <div className="flex items-center">
             <SidebarTrigger className="mr-4" />
-            <span className="text-sm font-semibold gradient-text">theFoundry Experience Simulator</span>
+            <span className="text-sm font-semibold gradient-text">theFoundry</span>
             </div>
             <AlertDialog>
               <AlertDialogTrigger asChild>
@@ -104,8 +104,13 @@ export function DashboardLayout() {
           <main className="flex-1 p-4 md:p-6 overflow-auto">
             <Outlet />
           </main>
-          <footer className="border-t border-border/40 px-4 py-3 text-xs text-muted-foreground">
-            theFoundry Simulation - Demo Only
+          <footer className="w-full max-w-6xl mx-auto text-center pb-4 space-y-1">
+            <p className="text-sm text-muted-foreground">
+              © {new Date().getFullYear()} theFoundry. All rights reserved.
+            </p>
+            <p className="text-xs text-muted-foreground/70">
+              AI-powered talent ↔ startup matching platform
+            </p>
           </footer>
         </div>
       </div>

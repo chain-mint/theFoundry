@@ -44,9 +44,9 @@ export default function LandingPage() {
               <Zap className="h-4 w-4" />
             </div>
             <span className="text-2xl font-bold gradient-text">theFoundry</span>
-            <span className="hidden sm:inline-flex px-2.5 py-1 rounded-full text-[11px] tracking-widest uppercase border border-border/50 text-muted-foreground bg-card/40 backdrop-blur">
+            {/* <span className="hidden sm:inline-flex px-2.5 py-1 rounded-full text-[11px] tracking-widest uppercase border border-border/50 text-muted-foreground bg-card/40 backdrop-blur">
               Experience Simulator
-            </span>
+            </span> */}
           </div>
           <Button size="icon" variant="outline" onClick={toggle} className="bg-card/50 backdrop-blur border-border/60">
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -85,14 +85,19 @@ export default function LandingPage() {
               ))}
             </div>
 
-            <p className="text-xs text-muted-foreground mt-12 animate-fade-in" style={{ animationDelay: "700ms" }}>
+            {/* <p className="text-xs text-muted-foreground mt-12 animate-fade-in" style={{ animationDelay: "700ms" }}>
               This is a simulation demo - no real data is used.
-            </p>
+            </p> */}
           </div>
         </main>
 
-        <footer className="w-full max-w-6xl mx-auto text-center pb-1">
-          <p className="text-xs text-muted-foreground/90">theFoundry Simulation - Demo Only</p>
+        <footer className="w-full max-w-6xl mx-auto text-center pb-4 space-y-1">
+          <p className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} theFoundry. All rights reserved.
+          </p>
+          <p className="text-xs text-muted-foreground/70">
+            AI-powered talent ↔ startup matching platform
+          </p>
         </footer>
       </div>
     </div>
