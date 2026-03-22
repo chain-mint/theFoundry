@@ -110,7 +110,7 @@ export default function AdminTalentPerformanceDashboard() {
     }
     setExporting("pdf");
     const lines = [
-      "3MTT Board Funder Brief (Mock PDF)",
+      "3MTT Board Funder Brief (PDF)",
       "Audience: AfDB / AFD style partner reports",
       `Generated: ${new Date().toLocaleString()}`,
       "",
@@ -128,7 +128,7 @@ export default function AdminTalentPerformanceDashboard() {
       lines.join("\n"),
       "application/pdf",
     );
-    toast({ title: "Report Generated", description: "Mock funder brief exported successfully." });
+    toast({ title: "Report Generated", description: "funder brief exported successfully." });
     setExporting(null);
   };
 

@@ -383,7 +383,7 @@ export default function FounderDashboard() {
     setFinalizedProjectId(projectId);
     toast({
       title: "Team setup finalized",
-      description: "Mock iDICE Board notification sent from frontend simulation.",
+      description: "iDICE Board notification sent from frontend simulation.",
     });
   }, [customIndustry, industry, roleResponses, startupStage, strategy, teamRoles, toast, user.name]);
 
@@ -805,7 +805,7 @@ export default function FounderDashboard() {
               {Object.values(roleResponses).includes("rejected") ? <AlertCircle className="h-4 w-4 text-destructive" /> : <CheckCircle2 className="h-4 w-4 text-accent" />}
               No unresolved rejected assignments
             </div>
-            <p className="text-xs text-muted-foreground">Frontend simulation only: finalization dispatches a mock iDICE Board notification.</p>
+            <p className="text-xs text-muted-foreground">Frontend simulation only: finalization dispatches a iDICE Board notification.</p>
           </div>
           <Button onClick={finalizeTeam} disabled={!teamLocked || Object.values(roleResponses).includes("rejected")}>
             Finish Team Setup

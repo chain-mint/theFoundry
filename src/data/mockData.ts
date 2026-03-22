@@ -496,13 +496,96 @@ export const complianceChecks = [
   { label: "Equity Pool Within 40% Cap", passed: true },
 ];
 
+export type GeoZone =
+  | "North West"
+  | "North East"
+  | "North Central"
+  | "South West"
+  | "South East"
+  | "South South";
+
+export interface StateMasterRecord {
+  stateCode: string;
+  stateName: string;
+  zone: GeoZone;
+  isFct: boolean;
+}
+
+export const nigerianStateMaster = [
+  { stateCode: "AB", stateName: "Abia", zone: "South East", isFct: false },
+  { stateCode: "AD", stateName: "Adamawa", zone: "North East", isFct: false },
+  {
+    stateCode: "AK",
+    stateName: "Akwa Ibom",
+    zone: "South South",
+    isFct: false,
+  },
+  { stateCode: "AN", stateName: "Anambra", zone: "South East", isFct: false },
+  { stateCode: "BA", stateName: "Bauchi", zone: "North East", isFct: false },
+  { stateCode: "BY", stateName: "Bayelsa", zone: "South South", isFct: false },
+  { stateCode: "BE", stateName: "Benue", zone: "North Central", isFct: false },
+  { stateCode: "BO", stateName: "Borno", zone: "North East", isFct: false },
+  {
+    stateCode: "CR",
+    stateName: "Cross River",
+    zone: "South South",
+    isFct: false,
+  },
+  { stateCode: "DE", stateName: "Delta", zone: "South South", isFct: false },
+  { stateCode: "EB", stateName: "Ebonyi", zone: "South East", isFct: false },
+  { stateCode: "ED", stateName: "Edo", zone: "South South", isFct: false },
+  { stateCode: "EK", stateName: "Ekiti", zone: "South West", isFct: false },
+  { stateCode: "EN", stateName: "Enugu", zone: "South East", isFct: false },
+  {
+    stateCode: "FC",
+    stateName: "Abuja FCT",
+    zone: "North Central",
+    isFct: true,
+  },
+  { stateCode: "GO", stateName: "Gombe", zone: "North East", isFct: false },
+  { stateCode: "IM", stateName: "Imo", zone: "South East", isFct: false },
+  { stateCode: "JI", stateName: "Jigawa", zone: "North West", isFct: false },
+  { stateCode: "KD", stateName: "Kaduna", zone: "North West", isFct: false },
+  { stateCode: "KN", stateName: "Kano", zone: "North West", isFct: false },
+  { stateCode: "KT", stateName: "Katsina", zone: "North West", isFct: false },
+  { stateCode: "KE", stateName: "Kebbi", zone: "North West", isFct: false },
+  { stateCode: "KO", stateName: "Kogi", zone: "North Central", isFct: false },
+  { stateCode: "KW", stateName: "Kwara", zone: "North Central", isFct: false },
+  { stateCode: "LA", stateName: "Lagos", zone: "South West", isFct: false },
+  {
+    stateCode: "NA",
+    stateName: "Nasarawa",
+    zone: "North Central",
+    isFct: false,
+  },
+  { stateCode: "NI", stateName: "Niger", zone: "North Central", isFct: false },
+  { stateCode: "OG", stateName: "Ogun", zone: "South West", isFct: false },
+  { stateCode: "ON", stateName: "Ondo", zone: "South West", isFct: false },
+  { stateCode: "OS", stateName: "Osun", zone: "South West", isFct: false },
+  { stateCode: "OY", stateName: "Oyo", zone: "South West", isFct: false },
+  {
+    stateCode: "PL",
+    stateName: "Plateau",
+    zone: "North Central",
+    isFct: false,
+  },
+  { stateCode: "RI", stateName: "Rivers", zone: "South South", isFct: false },
+  { stateCode: "SO", stateName: "Sokoto", zone: "North West", isFct: false },
+  { stateCode: "TA", stateName: "Taraba", zone: "North East", isFct: false },
+  { stateCode: "YO", stateName: "Yobe", zone: "North East", isFct: false },
+  { stateCode: "ZA", stateName: "Zamfara", zone: "North West", isFct: false },
+] as const;
+
+export type NigerianStateName =
+  (typeof nigerianStateMaster)[number]["stateName"];
+
 export interface BoiPortfolioRecord {
   id: string;
   founder: string;
   startup: string;
   teamType: "Max Growth" | "Lean Efficiency";
   cohort: "Cohort 1" | "Cohort 2" | "Cohort 3";
-  state: "Lagos" | "Abuja FCT" | "Kano" | "Rivers" | "Kaduna" | "Oyo";
+  state: NigerianStateName;
   milestone:
     | "Team Formation"
     | "MVP Development"
@@ -603,62 +686,179 @@ export const boiPortfolioOverview: BoiPortfolioRecord[] = [
 ];
 
 export interface BoiStatePlacement {
-  state: "Lagos" | "Abuja FCT" | "Kano" | "Rivers" | "Kaduna" | "Oyo";
+  state: NigerianStateName;
   cohort: "Cohort 1" | "Cohort 2" | "Cohort 3";
   placements: number;
   jobsCreated: number;
   activeStartups: number;
+  femaleLedStartups: number;
+  totalStartups: number;
+  youthEmployees: number;
+  totalEmployees: number;
+  ruralParticipants: number;
+  metroParticipants: number;
   complianceRate: number;
 }
 
-export const boiTalentHeatmap: BoiStatePlacement[] = [
-  {
-    state: "Lagos",
+const seededStateHeatmap: Partial<
+  Record<NigerianStateName, Omit<BoiStatePlacement, "state">>
+> = {
+  Lagos: {
     cohort: "Cohort 3",
     placements: 148,
     jobsCreated: 620,
     activeStartups: 18,
+    femaleLedStartups: 7,
+    totalStartups: 18,
+    youthEmployees: 126,
+    totalEmployees: 181,
+    ruralParticipants: 24,
+    metroParticipants: 124,
     complianceRate: 98,
   },
-  {
-    state: "Abuja FCT",
+  "Abuja FCT": {
     cohort: "Cohort 2",
     placements: 96,
     jobsCreated: 351,
     activeStartups: 12,
+    femaleLedStartups: 5,
+    totalStartups: 12,
+    youthEmployees: 84,
+    totalEmployees: 117,
+    ruralParticipants: 19,
+    metroParticipants: 77,
     complianceRate: 96,
   },
-  {
-    state: "Kano",
+  Kano: {
     cohort: "Cohort 1",
     placements: 74,
     jobsCreated: 268,
     activeStartups: 9,
+    femaleLedStartups: 4,
+    totalStartups: 9,
+    youthEmployees: 63,
+    totalEmployees: 92,
+    ruralParticipants: 44,
+    metroParticipants: 30,
     complianceRate: 94,
   },
-  {
-    state: "Rivers",
+  Rivers: {
     cohort: "Cohort 3",
     placements: 88,
     jobsCreated: 312,
     activeStartups: 11,
+    femaleLedStartups: 5,
+    totalStartups: 11,
+    youthEmployees: 69,
+    totalEmployees: 101,
+    ruralParticipants: 28,
+    metroParticipants: 60,
     complianceRate: 95,
   },
-  {
-    state: "Kaduna",
+  Kaduna: {
     cohort: "Cohort 2",
     placements: 61,
     jobsCreated: 214,
     activeStartups: 8,
+    femaleLedStartups: 3,
+    totalStartups: 8,
+    youthEmployees: 48,
+    totalEmployees: 76,
+    ruralParticipants: 34,
+    metroParticipants: 27,
     complianceRate: 91,
   },
-  {
-    state: "Oyo",
+  Oyo: {
     cohort: "Cohort 3",
     placements: 79,
     jobsCreated: 286,
     activeStartups: 10,
+    femaleLedStartups: 5,
+    totalStartups: 10,
+    youthEmployees: 61,
+    totalEmployees: 88,
+    ruralParticipants: 36,
+    metroParticipants: 43,
     complianceRate: 93,
+  },
+};
+
+export const boiTalentHeatmap: BoiStatePlacement[] = nigerianStateMaster.map(
+  (state, index) => {
+    const seeded = seededStateHeatmap[state.stateName];
+    return {
+      state: state.stateName,
+      cohort:
+        seeded?.cohort ??
+        (index % 3 === 0
+          ? "Cohort 1"
+          : index % 3 === 1
+            ? "Cohort 2"
+            : "Cohort 3"),
+      placements: seeded?.placements ?? 0,
+      jobsCreated: seeded?.jobsCreated ?? 0,
+      activeStartups: seeded?.activeStartups ?? 0,
+      femaleLedStartups: seeded?.femaleLedStartups ?? 0,
+      totalStartups: seeded?.totalStartups ?? 0,
+      youthEmployees: seeded?.youthEmployees ?? 0,
+      totalEmployees: seeded?.totalEmployees ?? 0,
+      ruralParticipants: seeded?.ruralParticipants ?? 0,
+      metroParticipants: seeded?.metroParticipants ?? 0,
+      complianceRate: seeded?.complianceRate ?? 0,
+    };
+  },
+);
+
+export interface GeoTrendSnapshotRecord {
+  month: string;
+  coveragePct: number;
+  femaleLedSharePct: number;
+  ruralSharePct: number;
+  jobsCreated: number;
+}
+
+export const geoTrendSnapshots: GeoTrendSnapshotRecord[] = [
+  {
+    month: "Jan",
+    coveragePct: 14,
+    femaleLedSharePct: 41,
+    ruralSharePct: 24,
+    jobsCreated: 520,
+  },
+  {
+    month: "Feb",
+    coveragePct: 19,
+    femaleLedSharePct: 43,
+    ruralSharePct: 26,
+    jobsCreated: 608,
+  },
+  {
+    month: "Mar",
+    coveragePct: 24,
+    femaleLedSharePct: 44,
+    ruralSharePct: 29,
+    jobsCreated: 694,
+  },
+  {
+    month: "Apr",
+    coveragePct: 30,
+    femaleLedSharePct: 45,
+    ruralSharePct: 31,
+    jobsCreated: 812,
+  },
+  {
+    month: "May",
+    coveragePct: 35,
+    femaleLedSharePct: 46,
+    ruralSharePct: 33,
+    jobsCreated: 928,
+  },
+  {
+    month: "Jun",
+    coveragePct: 41,
+    femaleLedSharePct: 47,
+    ruralSharePct: 36,
+    jobsCreated: 1062,
   },
 ];
 
