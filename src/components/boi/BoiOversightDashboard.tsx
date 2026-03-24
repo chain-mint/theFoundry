@@ -435,7 +435,7 @@ export default function BoiOversightDashboard() {
         <div className="p-4 border-b border-border/50 flex items-center justify-between gap-3">
           <div>
             <h2 className="text-sm font-semibold">iDICE Board Notifications</h2>
-            <p className="text-xs text-muted-foreground">Founder finalization events from frontend simulation</p>
+            <p className="text-xs text-muted-foreground">Founder finalization events from frontend</p>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" onClick={syncBoardData}>
